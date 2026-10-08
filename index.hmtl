@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÉLÉA — Agence Immobilière</title>
+<meta name="description" content="ÉLÉA — Une nouvelle façon de trouver le lieu qui vous ressemble.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --violet:#6161ff; --ink:#333; --slate:#535768; --cloud:#f5f6f8; --white:#fff;
+  --mist:#d0d4e4; --mint:#bcfe90; --sky:#abf0ff; --lav:#eddff7;
+  --peach:#ffd8b8; --pink:#fe81e4; --orange:#fda900;
+  --shadow:rgba(205,208,223,.48) 0 12px 48px;
+  --max:1200px; --radius:28px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--cloud);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{font:inherit;border:0;cursor:pointer}
+.container{width:min(var(--max),calc(100% - 40px));margin:auto}
+header{position:fixed;top:16px;left:50%;transform:translateX(-50%);width:min(1160px,calc(100% - 32px));z-index:1000;background:rgba(255,255,255,.84);backdrop-filter:blur(18px);border:1px solid rgba(208,212,228,.7);border-radius:22px;box-shadow:0 8px 35px rgba(80,80,130,.08)}
+.nav{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 22px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.04em;font-size:20px}
+.logo-mark{width:34px;height:34px;border-radius:12px;background:conic-gradient(from 220deg,#8181ff,#33dbdb,#33d58e,#ffd633,#fc527d,#8181ff);position:relative;animation:spin 10s linear infinite}
+.logo-mark:after{content:"";position:absolute;inset:8px;background:white;border-radius:8px}
+.navlinks{display:flex;gap:28px;color:var(--slate);font-size:14px;font-weight:500}
+.navlinks a{transition:.25s}.navlinks a:hover{color:var(--violet);transform:translateY(-2px)}
+.actions{display:flex;gap:9px}
+.pill{border-radius:999px;padding:12px 20px;transition:.3s;position:relative;overflow:hidden}
+.pill:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.35),transparent 70%);transform:translateX(-130%);transition:.55s}
+.pill:hover:after{transform:translateX(130%)}
+.outline{background:#fff;border:1px solid var(--mist);color:var(--ink)}
+.primary{background:var(--violet);color:#fff;box-shadow:0 10px 25px rgba(97,97,255,.24)}
+.primary:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(97,97,255,.3)}
+
+.hero{min-height:100vh;background:#fff;display:flex;align-items:center;padding:145px 0 80px;position:relative;isolation:isolate}
+.blob{position:absolute;border-radius:50%;filter:blur(1px);z-index:-1;opacity:.7}
+.blob.one{width:420px;height:420px;background:var(--lav);right:-140px;top:100px;animation:float 7s ease-in-out infinite}
+.blob.two{width:300px;height:300px;background:var(--sky);left:-150px;bottom:-80px;animation:float 9s ease-in-out infinite reverse}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:65px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#ececff;color:var(--violet);padding:8px 13px;border-radius:999px;font-size:12px;font-weight:600;margin-bottom:24px}
+.dot{width:7px;height:7px;border-radius:50%;background:#7f7fff;box-shadow:0 0 0 6px rgba(97,97,255,.1)}
+h1{font-size:clamp(48px,6.2vw,78px);line-height:1.04;letter-spacing:-.065em;font-weight:300;max-width:720px}
+.gradient{background:linear-gradient(90deg,var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-copy{font-size:17px;line-height:1.75;color:var(--slate);max-width:600px;margin:26px 0 30px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-note{display:flex;align-items:center;gap:12px;margin-top:28px;color:#777;font-size:12px}
+.avatars{display:flex}.avatar{width:30px;height:30px;border-radius:50%;border:2px solid #fff;margin-left:-7px;background:linear-gradient(135deg,#c9d2ff,#ffbfdc)}.avatar:first-child{margin-left:0}
+
+.property-stage{position:relative;min-height:530px;perspective:1200px}
+.property-card{position:absolute;inset:20px 0 20px 25px;background:#fff;border:1px solid var(--mist);border-radius:34px;padding:12px;box-shadow:var(--shadow);transform:rotate(2.5deg);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.property-card:hover{transform:rotate(0) translateY(-10px) scale(1.015)}
+.property-image{height:355px;border-radius:25px;overflow:hidden;position:relative;background:linear-gradient(135deg,#d9ddff,#9e8fff)}
+.property-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s}
+.property-card:hover .property-image img{transform:scale(1.06)}
+.price{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);padding:10px 14px;border-radius:15px;font-size:13px;font-weight:700}
+.like{position:absolute;right:18px;top:18px;width:42px;height:42px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:18px;box-shadow:0 5px 20px rgba(0,0,0,.12);transition:.3s}
+.like:hover{transform:scale(1.15) rotate(8deg)}
+.property-info{padding:18px 10px 8px;display:flex;justify-content:space-between;gap:20px;align-items:end}
+.property-info h3{font-size:20px;letter-spacing:-.03em}.property-info p{font-size:12px;color:#777;margin-top:5px}
+.property-meta{display:flex;gap:8px}.meta{padding:8px 10px;background:#f3f4f8;border-radius:11px;font-size:11px;color:var(--slate)}
+.floating-tag{position:absolute;z-index:2;padding:15px 18px;border-radius:18px;box-shadow:var(--shadow);font-size:12px;font-weight:600;animation:float 5s ease-in-out infinite}
+.tag1{background:var(--mint);right:-20px;top:55px}.tag2{background:var(--peach);left:-35px;bottom:80px;animation-delay:-2s}
+.cursor-orb{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(97,97,255,.18),transparent 65%);pointer-events:none;transform:translate(-50%,-50%);z-index:0;transition:opacity .2s}
+
+.trust{background:#fff;padding:28px 0 70px;text-align:center}
+.trust p{font-size:12px;color:#888;margin-bottom:22px}
+.trust-row{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;color:#777;font-weight:600;opacity:.6;font-size:16px}
+
+section{padding:110px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:45px}
+.kicker{color:var(--violet);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;margin-bottom:12px}
+h2{font-size:clamp(36px,4.5vw,58px);font-weight:300;letter-spacing:-.055em;line-height:1.08}
+.section-head p{color:var(--slate);max-width:430px;line-height:1.7;font-size:14px}
+
+.listings{background:var(--cloud)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--mist);border-radius:var(--radius);padding:12px;box-shadow:0 2px 30px rgba(205,208,223,.28);transition:transform .5s,box-shadow .5s}
+.card:hover{transform:translateY(-12px) rotate(-.6deg);box-shadow:0 18px 48px rgba(105,105,150,.17)}
+.card-img{height:285px;border-radius:21px;overflow:hidden;position:relative}
+.card-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s}
+.card:hover .card-img img{transform:scale(1.09)}
+.badge{position:absolute;left:13px;top:13px;background:#fff;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:700}
+.card-content{padding:18px 8px 8px}
+.card-content h3{font-size:19px;letter-spacing:-.03em}.location{font-size:12px;color:#81818b;margin:5px 0 16px}
+.card-bottom{display:flex;justify-content:space-between;align-items:center}.card-price{font-weight:700}.card-link{font-size:12px;color:var(--violet);font-weight:600}
+
+.story{background:#fff}
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}
+.story-visual{min-height:530px;position:relative}
+.photo-main{position:absolute;width:75%;height:480px;left:0;top:25px;border-radius:34px;overflow:hidden;box-shadow:var(--shadow);transform:rotate(-3deg);transition:.6s}
+.photo-main:hover{transform:rotate(0) scale(1.02)}
+.photo-main img{width:100%;height:100%;object-fit:cover}
+.mini-card{position:absolute;right:0;bottom:0;width:230px;padding:20px;background:var(--mint);border-radius:24px;box-shadow:var(--shadow);transform:rotate(4deg);transition:.4s}
+.mini-card:hover{transform:rotate(0) translateY(-8px)}
+.mini-card strong{display:block;font-size:30px;letter-spacing:-.05em}.mini-card span{font-size:12px;color:#435044}
+.story-copy p{color:var(--slate);line-height:1.8;margin:25px 0}.checks{display:grid;gap:13px}.check{display:flex;gap:11px;align-items:center;font-size:13px}.check i{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#ececff;color:var(--violet);font-style:normal}
+
+.services{background:#f9f9fb}
+.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.service{min-height:240px;border-radius:26px;padding:25px;display:flex;flex-direction:column;justify-content:space-between;transition:.45s;position:relative;overflow:hidden}
+.service:before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-60px;bottom:-60px;background:rgba(255,255,255,.3);transition:.5s}
+.service:hover{transform:translateY(-9px) scale(1.02)}.service:hover:before{transform:scale(1.7)}
+.service:nth-child(1){background:var(--mint)}.service:nth-child(2){background:var(--sky)}.service:nth-child(3){background:var(--lav)}.service:nth-child(4){background:#ffe7d5}
+.icon{font-size:26px}.service h3{font-size:18px}.service p{font-size:12px;line-height:1.6;color:#575b65;margin-top:8px}
+
+.process{background:var(--violet);color:#fff;position:relative;overflow:hidden}
+.process:before{content:"";position:absolute;width:600px;height:600px;border:1px solid rgba(255,255,255,.16);border-radius:50%;right:-250px;top:-200px}
+.process .kicker{color:#c9c9ff}.process .section-head p{color:#d9d9ff}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative}
+.step{border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:25px;min-height:220px;background:rgba(255,255,255,.07);backdrop-filter:blur(8px);transition:.4s}
+.step:hover{background:rgba(255,255,255,.14);transform:translateY(-8px)}
+.step-num{font-size:12px;color:#c9c9ff}.step h3{margin:65px 0 10px;font-size:20px}.step p{font-size:12px;line-height:1.7;color:#dedfff}
+
+.cta{padding:120px 0;background:#fff;text-align:center}
+.cta-box{background:linear-gradient(135deg,#eeeeff,#fff);border:1px solid var(--mist);border-radius:38px;padding:75px 30px;position:relative;overflow:hidden}
+.cta-box:before,.cta-box:after{content:"";position:absolute;border-radius:50%;filter:blur(3px);opacity:.55}.cta-box:before{width:250px;height:250px;background:var(--sky);left:-100px;bottom:-140px}.cta-box:after{width:280px;height:280px;background:#fbd0f5;right:-100px;top:-140px}
+.cta-box>*{position:relative;z-index:1}.cta-box p{color:var(--slate);max-width:540px;margin:20px auto 28px;font-size:14px;line-height:1.7}
+
+footer{background:#fff;border-top:1px solid #e5e6ed;padding:35px 0}.footer{display:flex;justify-content:space-between;gap:20px;align-items:center}.footer p,.footer a{font-size:12px;color:#858793}.footer-links{display:flex;gap:22px}
+
+.reveal{opacity:0;transform:translateY(35px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
+.delay1{transition-delay:.08s}.delay2{transition-delay:.16s}.delay3{transition-delay:.24s}
+
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes heroIn{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+.hero .eyebrow,.hero h1,.hero .hero-copy,.hero .hero-actions,.hero .hero-note{animation:heroIn .8s both}.hero h1{animation-delay:.08s}.hero-copy{animation-delay:.16s}.hero-actions{animation-delay:.24s}.hero-note{animation-delay:.32s}
+@media(max-width:900px){
+  .navlinks{display:none}.hero-grid,.story-grid{grid-template-columns:1fr}.property-stage{min-height:540px}.cards{grid-template-columns:1fr 1fr}.service-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  header{top:8px}.nav{height:62px}.actions .outline{display:none}.container{width:min(100% - 28px,var(--max))}
+  .hero{padding-top:115px}.hero-grid{gap:30px}.property-stage{min-height:450px}.property-card{inset:10px 0 10px 8px}.property-image{height:285px}.tag1{right:-5px}.tag2{left:-5px;bottom:50px}
+  .cards,.service-grid,.steps{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:18px}.story-visual{min-height:430px}.photo-main{height:390px;width:82%}.mini-card{width:190px}
+  .trust-row{justify-content:center}.footer{display:block}.footer-links{margin-top:14px;flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+}
+
+/* Réservation ÉLÉA */
+body.booking-open{overflow:hidden}
+.booking-backdrop{position:fixed;inset:0;z-index:2000;background:rgba(35,35,55,.48);backdrop-filter:blur(9px);display:grid;place-items:center;padding:18px;opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s}
+.booking-backdrop.open{opacity:1;visibility:visible}
+.booking-modal{width:min(720px,100%);max-height:min(92vh,900px);overflow:auto;background:#fff;border:1px solid rgba(255,255,255,.8);border-radius:30px;box-shadow:0 30px 100px rgba(24,24,55,.25);position:relative;transform:translateY(18px) scale(.985);transition:transform .3s cubic-bezier(.2,.8,.2,1);overscroll-behavior:contain}
+.booking-backdrop.open .booking-modal{transform:none}
+.booking-top{padding:30px 34px 23px;background:linear-gradient(135deg,#fff 45%,#f2f1ff);border-bottom:1px solid #ececf3;position:relative}
+.booking-close{position:absolute;right:22px;top:20px;width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid #e7e7ef;color:#56566b;font-size:23px;line-height:1;transition:.2s}
+.booking-close:hover{background:#ececff;color:var(--violet);transform:rotate(90deg)}
+.booking-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--violet);margin-bottom:8px}
+.booking-top h2{font-size:clamp(25px,4vw,34px);letter-spacing:-.05em;line-height:1.12;font-weight:500;padding-right:48px}
+.booking-top p{font-size:13px;color:var(--slate);margin-top:9px;line-height:1.6}
+.booking-progress{display:flex;gap:7px;margin-top:22px}
+.booking-progress span{height:4px;background:#e4e4ef;border-radius:5px;flex:1;transition:background .25s}
+.booking-progress span.active{background:var(--violet)}
+.booking-body{padding:26px 34px 32px}
+.booking-step[hidden]{display:none!important}
+.booking-label{display:block;font-size:12px;font-weight:600;color:#424253;margin:0 0 9px}
+.booking-field{margin-bottom:21px}
+.booking-choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.booking-choice{border:1px solid #e5e5ee;border-radius:17px;padding:15px 12px;text-align:left;background:#fff;color:var(--ink);transition:.2s;min-height:91px}
+.booking-choice:hover{border-color:#aaaaff;transform:translateY(-2px);box-shadow:0 8px 22px rgba(97,97,255,.09)}
+.booking-choice[aria-pressed=true]{border-color:var(--violet);background:#f3f2ff;box-shadow:0 0 0 2px rgba(97,97,255,.12)}
+.booking-choice strong{display:block;font-size:13px;margin-bottom:5px}.booking-choice small{font-size:10px;line-height:1.4;color:#77798a;display:block}
+.booking-icon{font-size:20px;display:block;margin-bottom:7px}
+.booking-input{width:100%;height:49px;border:1px solid #dedee8;border-radius:13px;background:#fff;padding:0 14px;font:inherit;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.booking-input:focus{border-color:var(--violet);box-shadow:0 0 0 4px rgba(97,97,255,.1)}
+.booking-input:invalid:not(:placeholder-shown){border-color:#dc6575}
+.booking-hint{font-size:11px;color:#77798a;margin-top:7px;line-height:1.5}
+.booking-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.booking-slot{border:1px solid #e3e3ed;border-radius:12px;padding:11px 7px;background:#fff;color:#454555;font-size:12px;transition:.18s}
+.booking-slot:hover{border-color:var(--violet);color:var(--violet);transform:translateY(-1px)}
+.booking-slot[aria-pressed=true]{background:var(--violet);color:#fff;border-color:var(--violet);box-shadow:0 6px 14px rgba(97,97,255,.2)}
+.booking-slot:disabled{display:none}
+.booking-empty{grid-column:1/-1;font-size:12px;color:#77798a;background:#f7f7fa;border-radius:12px;padding:14px;text-align:center}
+.booking-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:25px}
+.booking-actions .pill{min-width:145px;font-size:13px}
+.booking-back{background:#f1f1f6;color:#55566a;border-radius:999px;padding:12px 19px;transition:.2s}
+.booking-back:hover{background:#e6e6f1}
+.booking-error{min-height:18px;color:#b33b50;font-size:11px;margin-top:9px}
+.booking-summary{background:#f7f7fb;border:1px solid #ececf3;border-radius:18px;padding:18px;margin:18px 0}
+.booking-summary h3{font-size:13px;margin-bottom:12px}.booking-summary dl{display:grid;grid-template-columns:115px 1fr;gap:8px;font-size:12px}.booking-summary dt{color:#77798a}.booking-summary dd{font-weight:600;overflow-wrap:anywhere}
+.booking-success{text-align:center;padding:12px 0 4px}.booking-success-mark{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;margin:0 auto 17px;background:#eaffdf;color:#417c36;font-size:30px;animation:bookingPop .45s cubic-bezier(.2,.8,.2,1)}
+.booking-success h3{font-size:24px;letter-spacing:-.04em}.booking-success>p{font-size:13px;color:var(--slate);margin:9px auto 20px;max-width:420px;line-height:1.6}
+@keyframes bookingPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+@media(max-width:600px){.booking-backdrop{padding:0;align-items:end}.booking-modal{width:100%;max-height:94dvh;border-radius:26px 26px 0 0}.booking-top{padding:25px 22px 19px}.booking-body{padding:21px 22px 26px}.booking-choice-grid{gap:7px}.booking-choice{padding:12px 9px;min-height:86px}.booking-choice strong{font-size:12px}.booking-choice small{font-size:9px}.booking-slots{grid-template-columns:repeat(3,1fr)}.booking-actions .pill{min-width:0}.booking-summary dl{grid-template-columns:90px 1fr}}
+@media(prefers-reduced-motion:reduce){.booking-backdrop,.booking-modal,.booking-choice,.booking-slot,.booking-success-mark{transition:none!important;animation:none!important}}
+.card-link{background:transparent;padding:4px 0;cursor:pointer}.card-link:hover{text-decoration:underline;text-underline-offset:4px}
+body.property-open{overflow:hidden}
+.property-backdrop{position:fixed;inset:0;z-index:1900;background:rgba(35,35,55,.5);backdrop-filter:blur(9px);display:grid;place-items:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.property-backdrop.open{opacity:1;visibility:visible}
+.property-modal{width:min(1050px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:30px;box-shadow:0 30px 100px rgba(24,24,55,.25);position:relative;transform:translateY(15px) scale(.99);transition:transform .25s;overscroll-behavior:contain}
+.property-backdrop.open .property-modal{transform:none}
+.property-close{position:absolute;z-index:4;right:17px;top:17px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.94);border:1px solid #e8e8ef;color:#4a4a5a;font-size:23px;box-shadow:0 4px 16px #3332}
+.property-gallery{position:relative;background:#eeeef4;border-radius:30px 30px 0 0;overflow:hidden}
+.property-hero-image{height:min(54vh,520px);min-height:290px;position:relative}
+.property-hero-image img{display:block;width:100%;height:100%;object-fit:cover;transition:opacity .18s}
+.property-gallery-count{position:absolute;right:18px;bottom:18px;background:rgba(25,25,35,.68);color:#fff;border-radius:999px;padding:8px 12px;font-size:11px;backdrop-filter:blur(10px)}
+.property-gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);color:#333;border:1px solid #ffffffaa;font-size:24px;box-shadow:0 4px 18px #2222;transition:.2s}
+.property-gallery-arrow:hover{background:#fff;scale:1.06}.property-gallery-arrow.prev{left:17px}.property-gallery-arrow.next{right:17px}
+.property-thumbs{display:flex;gap:9px;padding:12px 16px;overflow-x:auto;background:#fff}
+.property-thumb{flex:0 0 84px;height:60px;padding:0;border:2px solid transparent;background:none;border-radius:11px;overflow:hidden;opacity:.72;cursor:pointer}
+.property-thumb.active{border-color:var(--violet);opacity:1}.property-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.property-info{padding:24px 34px 30px;display:grid;grid-template-columns:1fr auto;gap:12px 24px;align-items:start}
+.property-info .kicker{grid-column:1/-1;margin-bottom:-4px}.property-info h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.05em;line-height:1.1;font-weight:500}.property-info .property-price{font-size:20px;font-weight:700;color:var(--violet);white-space:nowrap}
+.property-info .property-location{grid-column:1/-1;color:#77798a;font-size:13px;margin-top:-7px}
+.property-description{grid-column:1/-1;color:var(--slate);font-size:13px;line-height:1.75;max-width:760px}
+.property-facts{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;margin-top:3px}.property-fact{border-radius:999px;background:#f3f3f8;padding:9px 13px;font-size:11px;color:#55566a}
+.property-actions{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin-top:9px}.property-actions .pill{font-size:13px}
+@media(max-width:600px){.property-backdrop{padding:0;align-items:end}.property-modal{width:100%;max-height:94dvh;border-radius:24px 24px 0 0}.property-gallery{border-radius:24px 24px 0 0}.property-hero-image{min-height:240px;height:36vh}.property-info{padding:20px 20px 26px;grid-template-columns:1fr;gap:10px}.property-info .property-price{grid-row:3}.property-info .property-location{grid-row:4}.property-thumbs{padding:9px 12px}.property-thumb{flex-basis:70px;height:52px}.property-close{right:12px;top:12px}}
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a class="logo" href="#top"><span class="logo-mark"></span>ÉLÉA</a>
+    <div class="navlinks">
+      <a href="#biens">Biens</a><a href="#agence">L'agence</a><a href="#services">Services</a><a href="#process">Notre méthode</a>
+    </div>
+    <div class="actions"><a class="pill outline" href="#contact">Parler à un expert</a><a class="pill primary" href="#biens">Voir les biens ↗</a></div>
+  </nav>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="blob one"></div><div class="blob two"></div><div class="cursor-orb" id="orb"></div>
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> L'immobilier, autrement</div>
+      <h1>Le lieu où votre <span class="gradient">prochaine histoire</span> commence.</h1>
+      <p class="hero-copy">Nous dénichons des lieux qui ont quelque chose en plus. Des appartements lumineux, des maisons singulières et des adresses pensées pour votre quotidien.</p>
+      <div class="hero-actions"><a class="pill primary" href="#biens">Explorer nos biens&nbsp; →</a><a class="pill outline" href="#contact">Estimer mon bien</a></div>
+      <div class="hero-note"><div class="avatars"><span class="avatar"></span><span class="avatar"></span><span class="avatar"></span></div> +1 200 projets accompagnés avec soin</div>
+    </div>
+    <div class="property-stage reveal">
+      <div class="floating-tag tag1">✦ Coup de cœur</div>
+      <div class="floating-tag tag2">✓ Visite virtuelle disponible</div>
+      <article class="property-card">
+        <div class="property-image">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85" alt="Maison contemporaine lumineuse">
+          <button class="like" aria-label="Ajouter aux favoris">♡</button>
+          <span class="price">890 000 €</span>
+        </div>
+        <div class="property-info">
+          <div><h3>Villa Horizon</h3><p>Montpellier · 5 pièces · 172 m²</p></div>
+          <div class="property-meta"><span class="meta">Piscine</span><span class="meta">Jardin</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="container">
+    <p>Une expertise locale, des projets qui durent.</p>
+    <div class="trust-row"><span>MAISON&amp;CO</span><span>habitat.</span><span>atelier 17</span><span>URBANIA</span><span>LE COLLECTIF</span><span>nova</span></div>
+  </div>
+</section>
+
+<section class="listings" id="biens">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="kicker">Sélection Éléa</div><h2>Des adresses<br>qui donnent envie.</h2></div><p>Une sélection volontairement courte. Nous préférons vous montrer moins de biens, mais de vrais coups de cœur.</p></div>
+    <div class="cards">
+      <article class="card reveal delay1"><div class="card-img"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="Maison moderne"><span class="badge">NOUVEAU</span></div><div class="card-content"><h3>Maison Alba</h3><div class="location">Castelnau-le-Lez · 168 m²</div><div class="card-bottom"><span class="card-price">745 000 €</span><button type="button" class="card-link" aria-label="Découvrir ce bien et ses photos">Découvrir →</button></div></div></article>
+      <article class="card reveal delay2"><div class="card-img"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85" alt="Intérieur contemporain"><span class="badge">COUP DE CŒUR</span></div><div class="card-content"><h3>Appartement Sève</h3><div class="location">Montpellier · 92 m²</div><div class="card-bottom"><span class="card-price">419 000 €</span><button type="button" class="card-link" aria-label="Découvrir ce bien et ses photos">Découvrir →</button></div></div></article>
+      <article class="card reveal delay3"><div class="card-img"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=85" alt="Salon élégant"><span class="badge">EXCLUSIVITÉ</span></div><div class="card-content"><h3>Maison Albaïa</h3><div class="location">Saint-Gély-du-Fesc · 204 m²</div><div class="card-bottom"><span class="card-price">1 090 000 €</span><button type="button" class="card-link" aria-label="Découvrir ce bien et ses photos">Découvrir →</button></div></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="agence">
+  <div class="container story-grid">
+    <div class="story-visual reveal">
+      <div class="photo-main"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=85" alt="Intérieur lumineux"></div>
+      <div class="mini-card"><strong>94%</strong><span>de nos clients nous recommandent à leurs proches.</span></div>
+    </div>
+    <div class="story-copy reveal">
+      <div class="kicker">L'agence</div><h2>Plus qu'une transaction. Une vraie rencontre.</h2>
+      <p>ÉLÉA est née d'une idée simple : rendre l'immobilier plus humain, plus clair et beaucoup plus agréable. Notre rôle est de comprendre ce que vous cherchez avant de vous montrer ce que nous avons.</p>
+      <div class="checks"><div class="check"><i>✓</i><span>Une sélection exigeante, pensée pour vous</span></div><div class="check"><i>✓</i><span>Un accompagnement de la première visite aux clés</span></div><div class="check"><i>✓</i><span>Une mise en valeur créative de chaque propriété</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="kicker">Notre savoir-faire</div><h2>Tout ce qu'il faut.<br>Rien de superflu.</h2></div><p>Un accompagnement complet, avec la précision d'un expert et la simplicité d'un partenaire.</p></div>
+    <div class="service-grid">
+      <article class="service reveal delay1"><div class="icon">⌂</div><div><h3>Acheter</h3><p>Nous trouvons les biens qui correspondent vraiment à votre projet.</p></div></article>
+      <article class="service reveal delay2"><div class="icon">↗</div><div><h3>Vendre</h3><p>Positionnement, storytelling, photos et stratégie de diffusion.</p></div></article>
+      <article class="service reveal delay3"><div class="icon">◌</div><div><h3>Investir</h3><p>Nous vous aidons à repérer les opportunités qui ont du sens.</p></div></article>
+      <article class="service reveal"><div class="icon">✦</div><div><h3>Valoriser</h3><p>Un regard créatif pour révéler tout le potentiel de votre bien.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-head reveal"><div><div class="kicker">Notre méthode</div><h2>Simple à vivre.<br>Précise à chaque étape.</h2></div><p>Pas de jargon, pas de parcours compliqué. Vous savez toujours où vous en êtes.</p></div>
+    <div class="steps">
+      <article class="step reveal delay1"><span class="step-num">01 / ÉCOUTER</span><h3>Votre projet</h3><p>Vos envies, vos contraintes, votre rythme. Tout commence ici.</p></article>
+      <article class="step reveal delay2"><span class="step-num">02 / CHERCHER</span><h3>La bonne adresse</h3><p>Nous activons notre réseau et notre connaissance du terrain.</p></article>
+      <article class="step reveal delay3"><span class="step-num">03 / DÉCIDER</span><h3>En confiance</h3><p>Chaque information est claire pour vous permettre de choisir sereinement.</p></article>
+      <article class="step reveal"><span class="step-num">04 / CÉLÉBRER</span><h3>Les clés</h3><p>Le moment que l'on préfère. Celui où un projet devient votre quotidien.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="kicker">Votre prochaine étape</div>
+      <h2>Et si on parlait<br><span class="gradient">de votre projet ?</span></h2>
+      <p>Une question, une estimation, une recherche précise ou simplement l'envie d'échanger ? Notre équipe vous répond avec plaisir.</p>
+      <button type="button" class="pill primary" id="openBooking">Prendre rendez-vous&nbsp; ↗</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer">
+    <p>© 2026 ÉLÉA Immobilier — Montpellier &amp; alentours</p>
+    <div class="footer-links"><a href="#">Instagram</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a></div>
+  </div>
+</footer>
+
+<div class="booking-backdrop" id="bookingBackdrop" aria-hidden="true">
+  <section class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="bookingTitle" aria-describedby="bookingDescription">
+    <div class="booking-top">
+      <button type="button" class="booking-close" id="bookingClose" aria-label="Fermer">×</button>
+      <div class="booking-kicker">Un premier échange, tout simplement</div>
+      <h2 id="bookingTitle">Prenons rendez-vous.</h2>
+      <p id="bookingDescription">Choisissez le format qui vous convient. Cela ne prend qu'une minute.</p>
+      <div class="booking-progress" aria-label="Étapes de réservation"><span class="active"></span><span></span><span></span></div>
+    </div>
+    <div class="booking-body">
+      <form id="bookingForm" novalidate>
+        <div class="booking-step" data-step="1">
+          <div class="booking-field">
+            <span class="booking-label">Comment souhaitez-vous échanger ?</span>
+            <div class="booking-choice-grid" role="group" aria-label="Type de rendez-vous">
+              <button type="button" class="booking-choice" data-type="Visio" aria-pressed="false"><span class="booking-icon">⌘</span><strong>En visio</strong><small>Un lien vous sera communiqué</small></button>
+              <button type="button" class="booking-choice" data-type="Téléphone" aria-pressed="false"><span class="booking-icon">⌕</span><strong>Par téléphone</strong><small>Nous vous appelons</small></button>
+              <button type="button" class="booking-choice" data-type="Agence" aria-pressed="false"><span class="booking-icon">⌂</span><strong>À l'agence</strong><small>Montpellier &amp; alentours</small></button>
+            </div>
+          </div>
+          <div class="booking-field">
+            <label class="booking-label" for="bookingDate">Choisissez une date</label>
+            <input class="booking-input" id="bookingDate" type="date" required>
+            <div class="booking-hint">Du lundi au vendredi, de 9 h à 17 h. Les créneaux déjà réservés ou passés ne sont pas proposés.</div>
+          </div>
+          <div class="booking-field">
+            <span class="booking-label">Créneaux disponibles <span id="slotDateLabel"></span></span>
+            <div class="booking-slots" id="bookingSlots" role="group" aria-label="Créneaux disponibles"><div class="booking-empty">Sélectionnez une date pour voir les disponibilités.</div></div>
+          </div>
+          <div class="booking-error" id="bookingError" role="alert"></div>
+          <div class="booking-actions"><span></span><button type="button" class="pill primary" id="bookingContinue">Continuer&nbsp; ↗</button></div>
+        </div>
+        <div class="booking-step" data-step="2" hidden>
+          <div class="booking-field"><label class="booking-label" for="bookingName">Votre nom</label><input class="booking-input" id="bookingName" name="name" autocomplete="name" maxlength="100" placeholder="Ex. Camille Martin" required></div>
+          <div class="booking-field"><label class="booking-label" for="bookingEmail">Votre adresse e-mail</label><input class="booking-input" id="bookingEmail" name="email" type="email" autocomplete="email" maxlength="254" placeholder="camille@exemple.fr" required></div>
+          <div class="booking-field"><label class="booking-label" for="bookingPhone">Votre téléphone</label><input class="booking-input" id="bookingPhone" name="tel" type="tel" autocomplete="tel" inputmode="tel" maxlength="25" pattern="[+0-9(). /-]{8,25}" placeholder="06 12 34 56 78" required><div class="booking-hint">Utilisé uniquement pour organiser votre rendez-vous.</div></div>
+          <div class="booking-summary" id="bookingReview"></div>
+          <div class="booking-error" id="bookingDetailsError" role="alert"></div>
+          <div class="booking-actions"><button type="button" class="booking-back" id="bookingBack">← Retour</button><button type="submit" class="pill primary">Confirmer&nbsp; ✓</button></div>
+        </div>
+        <div class="booking-step" data-step="3" hidden>
+          <div class="booking-success"><div class="booking-success-mark">✓</div><h3>Votre demande est enregistrée.</h3><p>Elle reste uniquement dans ce navigateur et n’a pas été transmise à ÉLÉA. Pour convenir réellement du rendez-vous, écrivez-nous à <a href="mailto:bonjour@elea-immobilier.fr" style="color:var(--violet);font-weight:600">bonjour@elea-immobilier.fr</a>.</p><div class="booking-summary" id="bookingConfirmation"></div><button type="button" class="pill primary" id="bookingDone">Terminé</button></div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+
+<div class="property-backdrop" id="propertyBackdrop" aria-hidden="true">
+  <section class="property-modal" role="dialog" aria-modal="true" aria-labelledby="propertyTitle">
+    <button type="button" class="property-close" id="propertyClose" aria-label="Fermer">×</button>
+    <div class="property-gallery">
+      <div class="property-hero-image"><img id="propertyMainImage" src="" alt=""><button type="button" class="property-gallery-arrow prev" id="propertyPrev" aria-label="Photo précédente">‹</button><button type="button" class="property-gallery-arrow next" id="propertyNext" aria-label="Photo suivante">›</button><span class="property-gallery-count" id="propertyImageCount"></span></div>
+      <div class="property-thumbs" id="propertyThumbs" aria-label="Toutes les photos du bien"></div>
+    </div>
+    <div class="property-info"><div class="kicker">La sélection ÉLÉA</div><h2 id="propertyTitle"></h2><div class="property-price" id="propertyPrice"></div><div class="property-location" id="propertyLocation"></div><p class="property-description" id="propertyDescription"></p><div class="property-facts" id="propertyFacts"></div><div class="property-actions"><button type="button" class="pill primary" id="propertyBook">Organiser une visite&nbsp; ↗</button><button type="button" class="booking-back" id="propertyCloseSecondary">Retour aux biens</button></div></div>
+  </section>
+</div>
+
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)} });
+},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>io.observe(el));
+
+const orb=document.getElementById('orb');
+window.addEventListener('pointermove',e=>{
+  orb.style.left=e.clientX+'px'; orb.style.top=e.clientY+'px';
+});
+document.querySelectorAll('.card,.service,.step,.property-card').forEach(card=>{
+  card.addEventListener('pointermove',e=>{
+    const r=card.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    if(innerWidth>900) card.style.transform=`perspective(900px) rotateX(${y*-3}deg) rotateY(${x*3}deg) translateY(-8px)`;
+  });
+  card.addEventListener('pointerleave',()=>card.style.transform='');
+});
+
+let last=0;
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  if(Math.abs(y-last)>4){
+    document.querySelector('.blob.one').style.transform=`translateY(${y*.06}px)`;
+    document.querySelector('.blob.two').style.transform=`translateY(${-y*.04}px)`;
+    last=y;
+  }
+},{passive:true});
+
+
+// Parcours de réservation autonome. Pour connecter un calendrier, remplacer
+// saveBooking() par un appel POST vers votre endpoint (payload stable ci-dessous).
+const BOOKING_STORAGE_KEY = 'elea.appointments.v1';
+const bookingBackdrop = document.getElementById('bookingBackdrop');
+const bookingDate = document.getElementById('bookingDate');
+const bookingSlots = document.getElementById('bookingSlots');
+const bookingError = document.getElementById('bookingError');
+const bookingSteps = [...document.querySelectorAll('.booking-step')];
+const bookingProgress = [...document.querySelectorAll('.booking-progress span')];
+const bookingState = { type: '', date: '', time: '' };
+const slotTimes = ['09:00','09:45','10:30','11:15','13:30','14:15','15:00','15:45','16:30'];
+let bookingReturnFocus = null;
+
+function localISODate(date = new Date()) {
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+}
+function loadBookings() {
+  try { const value = JSON.parse(localStorage.getItem(BOOKING_STORAGE_KEY) || '[]'); return Array.isArray(value) ? value : []; }
+  catch (error) { console.warn('Réservations locales illisibles', error); return []; }
+}
+function isSlotAvailable(date, time) {
+  const startsAt = new Date(`${date}T${time}:00`);
+  return startsAt.getTime() > Date.now() && !loadBookings().some(item => item.date === date && item.time === time);
+}
+function refreshSlots() {
+  const date = bookingDate.value;
+  bookingState.date = date; bookingState.time = '';
+  bookingError.textContent = '';
+  bookingSlots.replaceChildren();
+  if (!date) { bookingSlots.innerHTML = '<div class="booking-empty">Sélectionnez une date pour voir les disponibilités.</div>'; return; }
+  const day = new Date(`${date}T12:00:00`).getDay();
+  document.getElementById('slotDateLabel').textContent = new Date(`${date}T12:00:00`).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  if (day === 0 || day === 6) { bookingSlots.innerHTML = '<div class="booking-empty">Les rendez-vous sont proposés du lundi au vendredi. Choisissez un autre jour.</div>'; return; }
+  const available = slotTimes.filter(time => isSlotAvailable(date, time));
+  if (!available.length) { bookingSlots.innerHTML = '<div class="booking-empty">Il n’y a plus de créneau disponible ce jour-là. Choisissez une autre date.</div>'; return; }
+  available.forEach(time => {
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'booking-slot'; button.textContent = time; button.setAttribute('aria-pressed','false');
+    button.addEventListener('click', () => { bookingState.time = time; bookingSlots.querySelectorAll('.booking-slot').forEach(slot => slot.setAttribute('aria-pressed',String(slot === button))); });
+    bookingSlots.append(button);
+  });
+}
+function setBookingStep(number) {
+  bookingSteps.forEach((step,index) => { step.hidden = index + 1 !== number; });
+  bookingProgress.forEach((bar,index) => bar.classList.toggle('active',index < number));
+  document.querySelector('.booking-modal').scrollTop = 0;
+  if(number === 2) document.getElementById('bookingName').focus({preventScroll:true});
+}
+function showBookingSummary(target, includeContact = false) {
+  const details = [
+    ['Format', bookingState.type],
+    ['Date', new Date(`${bookingState.date}T12:00:00`).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})],
+    ['Heure', bookingState.time]
+  ];
+  if(includeContact) details.push(['Nom',document.getElementById('bookingName').value.trim()],['E-mail',document.getElementById('bookingEmail').value.trim()],['Téléphone',document.getElementById('bookingPhone').value.trim()]);
+  target.innerHTML = '<h3>Récapitulatif</h3><dl>' + details.map(([label,value]) => `<dt>${label}</dt><dd>${escapeBookingText(value)}</dd>`).join('') + '</dl>';
+}
+function escapeBookingText(value) { return String(value).replace(/[&<>"']/g,char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
+function openBooking() {
+  bookingReturnFocus = document.activeElement; bookingState.type=''; bookingState.date=''; bookingState.time='';
+  document.getElementById('bookingTitle').textContent='Prenons rendez-vous.';
+  document.querySelectorAll('.booking-choice').forEach(choice => choice.setAttribute('aria-pressed','false'));
+  document.getElementById('bookingForm').reset();
+  bookingDate.min = localISODate(); bookingDate.max = localISODate(new Date(Date.now() + 90*86400000));
+  document.getElementById('slotDateLabel').textContent=''; bookingError.textContent=''; document.getElementById('bookingDetailsError').textContent='';
+  refreshSlots(); setBookingStep(1); bookingBackdrop.classList.add('open'); bookingBackdrop.setAttribute('aria-hidden','false'); document.body.classList.add('booking-open');
+  document.getElementById('bookingClose').focus();
+}
+function closeBooking() { bookingBackdrop.classList.remove('open'); bookingBackdrop.setAttribute('aria-hidden','true'); document.body.classList.remove('booking-open'); if(bookingReturnFocus) bookingReturnFocus.focus(); }
+document.getElementById('openBooking').addEventListener('click',openBooking);
+document.getElementById('bookingClose').addEventListener('click',closeBooking);
+document.getElementById('bookingDone').addEventListener('click',closeBooking);
+bookingBackdrop.addEventListener('click',event => { if(event.target === bookingBackdrop) closeBooking(); });
+document.addEventListener('keydown',event => {
+  if(!bookingBackdrop.classList.contains('open')) return;
+  if(event.key === 'Escape') closeBooking();
+  if(event.key === 'Tab') {
+    const focusable = [...bookingBackdrop.querySelectorAll('button:not(:disabled),input:not(:disabled):not([type=hidden])')].filter(el => el.offsetParent !== null);
+    if(!focusable.length) return;
+    const first=focusable[0], last=focusable[focusable.length-1];
+    if(event.shiftKey && document.activeElement === first){event.preventDefault();last.focus();}
+    else if(!event.shiftKey && document.activeElement === last){event.preventDefault();first.focus();}
+  }
+});
+document.querySelectorAll('.booking-choice').forEach(choice => choice.addEventListener('click',() => {
+  bookingState.type=choice.dataset.type; document.querySelectorAll('.booking-choice').forEach(item => item.setAttribute('aria-pressed',String(item===choice)));
+}));
+bookingDate.addEventListener('change',refreshSlots);
+document.getElementById('bookingContinue').addEventListener('click',() => {
+  bookingError.textContent='';
+  if(!bookingState.type){bookingError.textContent='Choisissez un format de rendez-vous.';return;}
+  if(!bookingDate.value){bookingError.textContent='Choisissez une date.';bookingDate.focus();return;}
+  if(bookingDate.value < localISODate() || bookingDate.value > bookingDate.max){bookingError.textContent='Choisissez une date comprise entre aujourd’hui et les 90 prochains jours.';return;}
+  const day=new Date(`${bookingDate.value}T12:00:00`).getDay();
+  if(day===0||day===6){bookingError.textContent='Choisissez un jour du lundi au vendredi.';return;}
+  if(!bookingState.time || !isSlotAvailable(bookingState.date,bookingState.time)){refreshSlots();bookingError.textContent='Ce créneau vient de devenir indisponible. Choisissez-en un autre.';return;}
+  showBookingSummary(document.getElementById('bookingReview')); setBookingStep(2);
+});
+document.getElementById('bookingBack').addEventListener('click',() => setBookingStep(1));
+document.getElementById('bookingForm').addEventListener('submit',event => {
+  event.preventDefault(); const form=event.currentTarget, error=document.getElementById('bookingDetailsError'); error.textContent='';
+  if(!form.reportValidity()) return;
+  const phone=document.getElementById('bookingPhone').value.trim();
+  if(phone.replace(/\D/g,'').length < 8){error.textContent='Saisissez un numéro comportant au moins 8 chiffres.';document.getElementById('bookingPhone').focus();return;}
+  if(!isSlotAvailable(bookingState.date,bookingState.time)){error.textContent='Ce créneau vient d’être réservé. Revenez choisir un autre horaire.';setBookingStep(1);refreshSlots();return;}
+  const booking={id:crypto.randomUUID ? crypto.randomUUID() : `elea-${Date.now()}-${Math.random().toString(16).slice(2)}`,type:bookingState.type,date:bookingState.date,time:bookingState.time,name:document.getElementById('bookingName').value.trim(),email:document.getElementById('bookingEmail').value.trim(),phone,createdAt:new Date().toISOString(),status:'pending'};
+  try { const bookings=loadBookings(); bookings.push(booking); localStorage.setItem(BOOKING_STORAGE_KEY,JSON.stringify(bookings)); }
+  catch(storageError){error.textContent='Le navigateur ne peut pas enregistrer la réservation. Vérifiez son espace de stockage puis réessayez.';return;}
+  // Point d’intégration futur : envoyer `booking` à un backend / calendrier ici.
+  showBookingSummary(document.getElementById('bookingConfirmation'),true); setBookingStep(3); document.getElementById('bookingTitle').textContent='C’est confirmé.';
+});
+
+const propertyCatalog = [
+  {name:'Maison Alba',location:'Castelnau-le-Lez',area:'168 m²',price:'745 000 €',description:'Une maison contemporaine aux lignes épurées, présentée dans la sélection ÉLÉA. Contactez-nous pour obtenir le dossier complet et organiser une visite.',photos:[
+    ['photo-1600585154340-be6161a56a0c','Vue extérieure de la Maison Alba'],['photo-1600607687939-ce8a6c25118c','Espace de vie lumineux'],['photo-1600566753190-17f0baa2a6c3','Intérieur contemporain'],['photo-1600607687920-4e2a09cf159d','Détail des espaces intérieurs']
+  ]},
+  {name:'Appartement Sève',location:'Montpellier',area:'92 m²',price:'419 000 €',description:'Un appartement au style contemporain, au cœur de Montpellier. Contactez-nous pour connaître les caractéristiques détaillées et recevoir le dossier de présentation.',photos:[
+    ['photo-1600607687920-4e2a09cf159d','Pièce de vie de l’Appartement Sève'],['photo-1600607687939-ce8a6c25118c','Salon lumineux'],['photo-1600566753086-00f18fb6b3ea','Cuisine ouverte'],['photo-1600210492486-724fe5c67fb0','Détail de décoration intérieure']
+  ]},
+  {name:'Maison Albaïa',location:'Saint-Gély-du-Fesc',area:'204 m²',price:'1 090 000 €',description:'Une belle adresse dans un environnement recherché au nord de Montpellier. Contactez-nous pour découvrir le dossier complet et les informations sur le bien.',photos:[
+    ['photo-1600566753086-00f18fb6b3ea','Vue intérieure de la Maison Albaïa'],['photo-1600607687939-ce8a6c25118c','Espace de réception'],['photo-1600210492486-724fe5c67fb0','Salon de la maison'],['photo-1600566753190-17f0baa2a6c3','Détail des finitions']
+  ]}
+].map(property => ({...property, photos:property.photos.map(([id,alt])=>({src:`https://images.unsplash.com/${id}?auto=format&fit=crop&w=1600&q=88`,thumb:`https://images.unsplash.com/${id}?auto=format&fit=crop&w=240&h=160&q=78`,alt}))}));
+const propertyBackdrop=document.getElementById('propertyBackdrop');
+const propertyMainImage=document.getElementById('propertyMainImage');
+const propertyThumbs=document.getElementById('propertyThumbs');
+let activeProperty=0, activePhoto=0, propertyReturnFocus=null;
+function showPropertyPhoto(index){
+  const photos=propertyCatalog[activeProperty].photos; activePhoto=(index+photos.length)%photos.length;
+  const photo=photos[activePhoto]; propertyMainImage.src=photo.src; propertyMainImage.alt=photo.alt;
+  document.getElementById('propertyImageCount').textContent=`${activePhoto+1} / ${photos.length}`;
+  propertyThumbs.querySelectorAll('.property-thumb').forEach((thumb,i)=>{thumb.classList.toggle('active',i===activePhoto);thumb.setAttribute('aria-pressed',String(i===activePhoto));});
+}
+function openProperty(index,trigger){
+  activeProperty=index;activePhoto=0;propertyReturnFocus=trigger;
+  const property=propertyCatalog[index];
+  document.getElementById('propertyTitle').textContent=property.name;
+  document.getElementById('propertyPrice').textContent=property.price;
+  document.getElementById('propertyLocation').textContent=`${property.location} · ${property.area}`;
+  document.getElementById('propertyDescription').textContent=property.description+' Les photos présentées sont des visuels d’illustration.';
+  const facts=document.getElementById('propertyFacts');facts.replaceChildren();
+  [`${property.area} de surface`,property.location,'Dossier sur demande'].forEach(text=>{const fact=document.createElement('span');fact.className='property-fact';fact.textContent=text;facts.append(fact);});
+  propertyThumbs.replaceChildren();
+  property.photos.forEach((photo,i)=>{const button=document.createElement('button');button.type='button';button.className='property-thumb';button.setAttribute('aria-label',`Afficher la photo ${i+1}`);button.setAttribute('aria-pressed','false');const image=document.createElement('img');image.src=photo.thumb;image.alt='';image.loading='lazy';button.append(image);button.addEventListener('click',()=>showPropertyPhoto(i));propertyThumbs.append(button);});
+  showPropertyPhoto(0);propertyBackdrop.classList.add('open');propertyBackdrop.setAttribute('aria-hidden','false');document.body.classList.add('property-open');document.getElementById('propertyClose').focus();
+}
+function closeProperty(){propertyBackdrop.classList.remove('open');propertyBackdrop.setAttribute('aria-hidden','true');document.body.classList.remove('property-open');if(propertyReturnFocus)propertyReturnFocus.focus();}
+document.querySelectorAll('.card-link').forEach((button,index)=>button.addEventListener('click',()=>openProperty(index,button)));
+document.getElementById('propertyClose').addEventListener('click',closeProperty);
+document.getElementById('propertyCloseSecondary').addEventListener('click',closeProperty);
+propertyBackdrop.addEventListener('click',event=>{if(event.target===propertyBackdrop)closeProperty();});
+document.getElementById('propertyPrev').addEventListener('click',()=>showPropertyPhoto(activePhoto-1));
+document.getElementById('propertyNext').addEventListener('click',()=>showPropertyPhoto(activePhoto+1));
+document.getElementById('propertyBook').addEventListener('click',()=>{closeProperty();openBooking();});
+document.addEventListener('keydown',event=>{if(!propertyBackdrop.classList.contains('open'))return;if(event.key==='ArrowLeft')showPropertyPhoto(activePhoto-1);if(event.key==='ArrowRight')showPropertyPhoto(activePhoto+1);if(event.key==='Escape')closeProperty();});
+
+</script>
+</body>
+</html>
